@@ -1,0 +1,8 @@
+{
+    "chat_translator_title": "Chat Translator",
+    "chat_translator_desc": "",
+    "chat_translator_language_title": "Language",
+    "chat_translator_language_desc": "Language in which incoming messages are to be translated.",
+    "chat_translator_mouse_pointer_title": "Enable Mouse Pointer Ingame",
+    "chat_translator_mouse_pointer_desc": "Enables the Mouse pointer when opening the chat while ingame."
+}
