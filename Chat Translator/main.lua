@@ -10,6 +10,21 @@ ChatTranslator._languages_file = ChatTranslator._mod_path .. "languages.json"
 ChatTranslator._save_path = SavePath
 ChatTranslator._save_file = ChatTranslator._save_path .. "chat_translator.json"
 
+function deep_copy(orig)
+    local orig_type = type(orig)
+    local copy
+    if orig_type == "table" then
+        copy = {}
+        for orig_key, orig_value in next, orig, nil do
+            copy[deep_copy(orig_key)] = deep_copy(orig_value)
+        end
+        setmetatable(copy, deep_copy(getmetatable(orig)))
+    else -- number, string, boolean, etc
+        copy = orig
+    end
+    return copy
+end
+
 function ChatTranslator:Setup()
     if not self.settings then
         self:Load()
