@@ -6,7 +6,6 @@ ChatTranslator.default_settings = {
 }
 
 ChatTranslator._mod_path = ModPath
-ChatTranslator._options_menu_file = ChatTranslator._mod_path .. "menu/options.json"
 ChatTranslator._languages_file = ChatTranslator._mod_path .. "languages.json"
 ChatTranslator._save_path = SavePath
 ChatTranslator._save_file = ChatTranslator._save_path .. "chat_translator.json"
@@ -892,7 +891,7 @@ function ChatTranslator.SetupHooks()
                         description = "chat_translator_language_desc",
                         callback = "chat_translator_language_callback",
                         items = ChatTranslator.languages.name_ids,
-                        value = language_index or 40,
+                        value = language_index or 1,
                         menu_id = "chat_translator",
                         priority = 2
                     }
@@ -904,7 +903,7 @@ function ChatTranslator.SetupHooks()
                         title = "chat_translator_mouse_pointer_title",
                         desc = "chat_translator_mouse_pointer_desc",
                         callback = "chat_translator_mouse_pointer_callback",
-                        value = true,
+                        value = ChatTranslator.settings.mouse_pointer,
                         menu_id = "chat_translator",
                         priority = 1
                     }
