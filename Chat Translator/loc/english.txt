@@ -3,6 +3,13 @@
     "chat_translator_desc": "",
     "chat_translator_language_title": "Language",
     "chat_translator_language_desc": "Language in which incoming messages are to be translated.",
+    "chat_translator_hud_title": "HUDChat",
+    "chat_translator_hud_desc": "Select the HUDChat you are using for the compatibility.",
+    "chat_translator_hud_default": "Default",
+    "chat_translator_hud_wolfhud": "WolfHUD",
+    "chat_translator_hud_voidui": "Void UI",
+    "chat_translator_extend_chat_title": "Extend default chat",
+    "chat_translator_extend_chat_desc": "Extend the default chat functionalities.",
     "chat_translator_mouse_pointer_title": "Enable Mouse Pointer Ingame",
     "chat_translator_mouse_pointer_desc": "Enables the Mouse pointer when opening the chat while ingame."
 }
