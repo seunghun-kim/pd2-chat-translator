@@ -444,6 +444,8 @@ function ChatTranslatorMessage:ToggleTranslation()
         line:set_h(panel:h())
         line_shadow:set_h(panel:h())
     end
+
+    self._chat:_layout_output_panel()
 end
 
 function ChatTranslator.SetupHooks()
