@@ -894,7 +894,8 @@ function ChatTranslator.SetupHooks()
                 for i = 1, #ChatTranslator.languages.name_ids do
                     loc:add_localized_strings(
                         {
-                            [ChatTranslator.languages.name_ids[i]] = ChatTranslator.languages.names[i]
+                            [ChatTranslator.languages.name_ids[i]] = ChatTranslator.languages.names[i] ..
+                                " (" .. ChatTranslator.languages.codes[i] .. ")"
                         }
                     )
                 end
