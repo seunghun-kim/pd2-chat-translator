@@ -3,7 +3,8 @@ ChatTranslator.CHAT_TYPE = {CHATGUI = 1, HUDCHAT = 2}
 ChatTranslator.HUD = {
     DEFAULT = 1,
     WOLFHUD = 2,
-    VOIDUI = 3
+    VOIDUI = 3,
+    VANILLAHUD = 4
 }
 ChatTranslator.default_settings = {
     language = "en",
@@ -226,6 +227,61 @@ function ChatTranslator.UpdateButtons()
     end
 end
 
+function ChatTranslator:Warn(ultrawide_fix_missing)
+    if ultrawide_fix_missing then
+        local dialog_data = {
+            title = managers.localization:text("dialog_warning_title"),
+            text = managers.localization:text("chat_translator_warning_ultrawide_fix_missing")
+        }
+        local yes_button = {
+            text = managers.localization:text("dialog_yes"),
+            callback_func = function()
+                Steam:overlay_activate("url", "https://modworkshop.net/mod/32486")
+            end
+        }
+        local no_button = {
+            text = managers.localization:text("dialog_no"),
+            callback_func = nil,
+            cancel_button = true
+        }
+        dialog_data.button_list = {
+            yes_button,
+            no_button
+        }
+
+        managers.system_menu:show(dialog_data)
+    else
+        local dialog_data = {
+            title = managers.localization:text("dialog_warning_title"),
+            text = managers.localization:text("chat_translator_warning_hud_missing")
+        }
+
+        local ok_button = {
+            text = managers.localization:text("dialog_ok")
+        }
+
+        dialog_data.button_list = {
+            ok_button
+        }
+
+        managers.system_menu:show(dialog_data)
+    end
+end
+
+function ChatTranslator:CheckHUDCompatibility()
+    if self.settings.hud == ChatTranslator.HUD.WOLFHUD and not WolfHUD then
+        ChatTranslator:Warn()
+    elseif self.settings.hud == ChatTranslator.HUD.VOIDUI and (not VoidUI or not VoidUI.options.enable_chat) then
+        ChatTranslator:Warn()
+    elseif self.settings.hud == ChatTranslator.HUD.VANILLAHUD then
+        if (not VHUDPlus or not VHUDPlus:getSetting({"HUDChat", "ENABLED"}, true)) then
+            ChatTranslator:Warn()
+        elseif not UltrawideFix then
+            ChatTranslator:Warn(true)
+        end
+    end
+end
+
 function ChatTranslator:mouse_moved(x, y)
     local output_panel = self._panel:child("output_panel")
     if not output_panel:inside(x, y) then
@@ -373,7 +429,10 @@ function ChatTranslatorMessage:ToggleTranslation()
         line:set_h(h)
         line_bg:set_w(w + line:left() + 2)
         line_bg:set_h(self._chat.line_height * line:number_of_lines())
-    elseif ChatTranslator.settings.hud == ChatTranslator.HUD.WOLFHUD then
+    elseif
+        ChatTranslator.settings.hud == ChatTranslator.HUD.WOLFHUD or
+            ChatTranslator.settings.hud == ChatTranslator.HUD.VANILLAHUD
+     then
         local msg_panel = self._line.panel
         local message_text = msg_panel:child("msg")
         local msg_panel_bg = msg_panel:child("bg")
@@ -940,6 +999,7 @@ function ChatTranslator.SetupHooks()
                 end
 
                 function MenuCallbackHandler:chat_translator_back_callback(item)
+                    ChatTranslator:CheckHUDCompatibility()
                     ChatTranslator:Save()
                 end
 
@@ -972,7 +1032,8 @@ function ChatTranslator.SetupHooks()
                         items = {
                             "chat_translator_hud_default",
                             "chat_translator_hud_wolfhud",
-                            "chat_translator_hud_voidui"
+                            "chat_translator_hud_voidui",
+                            "chat_translator_hud_vanillahud"
                         },
                         value = ChatTranslator.settings.hud,
                         menu_id = "chat_translator",

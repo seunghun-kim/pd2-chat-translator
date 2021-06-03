@@ -8,8 +8,11 @@
     "chat_translator_hud_default": "Default",
     "chat_translator_hud_wolfhud": "WolfHUD",
     "chat_translator_hud_voidui": "Void UI",
+    "chat_translator_hud_vanillahud": "VanillaHUD",
     "chat_translator_extend_chat_title": "Extend default chat",
     "chat_translator_extend_chat_desc": "Extend the default chat functionalities.",
     "chat_translator_mouse_pointer_title": "Enable Mouse Pointer Ingame",
-    "chat_translator_mouse_pointer_desc": "Enables the Mouse pointer when opening the chat while ingame."
+    "chat_translator_mouse_pointer_desc": "Enables the Mouse pointer when opening the chat while ingame.",
+    "chat_translator_warning_hud_missing": "The selected HUD is either not installed or it's chat option is disabled. If the latter is the case please select default.",
+    "chat_translator_warning_ultrawide_fix_missing": "Ultrawide Fix to resolve scaling issues is not installed. Do you want to visit the mod page?"
 }
