@@ -445,7 +445,11 @@ function ChatTranslatorMessage:ToggleTranslation()
         line_shadow:set_h(panel:h())
     end
 
-    self._chat:_layout_output_panel()
+    if ChatTranslator.settings.hud == ChatTranslator.HUD.VOIDUI then
+        self._chat:_layout_custom_output_panel()
+    else
+        self._chat:_layout_output_panel()
+    end
 end
 
 function ChatTranslator.SetupHooks()
