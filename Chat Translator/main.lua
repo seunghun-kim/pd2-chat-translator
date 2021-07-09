@@ -491,7 +491,7 @@ end
 
 function ChatTranslator.SetupHooks()
     if RequiredScript == "lib/managers/chatmanager" then
-        Hooks:PreHook(
+        Hooks:PostHook(
             ChatGui,
             "init",
             "ChatTranslator_ChatGui_init",
@@ -809,7 +809,7 @@ function ChatTranslator.SetupHooks()
             end
         )
 
-        Hooks:PreHook(
+        Hooks:PostHook(
             HUDChat,
             "init",
             "ChatTranslator_HUDChat_init",
