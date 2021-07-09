@@ -40,6 +40,10 @@ function ChatTranslator:Setup()
         self.LoadLanguages()
     end
 
+    if ChatTranslator.HUD.VANILLAHUD then
+        HSAS = HSAS or {}
+    end
+
     self.SetupHooks()
 end
 
@@ -227,45 +231,21 @@ function ChatTranslator.UpdateButtons()
     end
 end
 
-function ChatTranslator:Warn(ultrawide_fix_missing)
-    if ultrawide_fix_missing then
-        local dialog_data = {
-            title = managers.localization:text("dialog_warning_title"),
-            text = managers.localization:text("chat_translator_warning_ultrawide_fix_missing")
-        }
-        local yes_button = {
-            text = managers.localization:text("dialog_yes"),
-            callback_func = function()
-                Steam:overlay_activate("url", "https://modworkshop.net/mod/32486")
-            end
-        }
-        local no_button = {
-            text = managers.localization:text("dialog_no"),
-            callback_func = nil,
-            cancel_button = true
-        }
-        dialog_data.button_list = {
-            yes_button,
-            no_button
-        }
+function ChatTranslator:Warn()
+    local dialog_data = {
+        title = managers.localization:text("dialog_warning_title"),
+        text = managers.localization:text("chat_translator_warning_hud_missing")
+    }
 
-        managers.system_menu:show(dialog_data)
-    else
-        local dialog_data = {
-            title = managers.localization:text("dialog_warning_title"),
-            text = managers.localization:text("chat_translator_warning_hud_missing")
-        }
+    local ok_button = {
+        text = managers.localization:text("dialog_ok")
+    }
 
-        local ok_button = {
-            text = managers.localization:text("dialog_ok")
-        }
+    dialog_data.button_list = {
+        ok_button
+    }
 
-        dialog_data.button_list = {
-            ok_button
-        }
-
-        managers.system_menu:show(dialog_data)
-    end
+    managers.system_menu:show(dialog_data)
 end
 
 function ChatTranslator:CheckHUDCompatibility()
@@ -276,8 +256,6 @@ function ChatTranslator:CheckHUDCompatibility()
     elseif self.settings.hud == ChatTranslator.HUD.VANILLAHUD then
         if (not VHUDPlus or not VHUDPlus:getSetting({"HUDChat", "ENABLED"}, true)) then
             ChatTranslator:Warn()
-        elseif not UltrawideFix then
-            ChatTranslator:Warn(true)
         end
     end
 end
