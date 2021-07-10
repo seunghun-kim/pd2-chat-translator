@@ -1,0 +1,18 @@
+{
+    "chat_translator_title": "Chat Translator",
+    "chat_translator_desc": "聊天翻译模组设置,自动翻译指令格式：tl 目标语言代码 你要翻译的内容\n常用语言代码:zh-简体中文 zh-TW-繁体中文 en-英语 ja-日语 ko-韩语 ru-俄语",
+    "chat_translator_language_title": "翻译语言",
+    "chat_translator_language_desc": "选择被翻译的语言",
+    "chat_translator_hud_title": "HUD聊天",
+    "chat_translator_hud_desc": "选择你的HUD聊天兼容选项",
+    "chat_translator_hud_default": "默认",
+    "chat_translator_hud_wolfhud": "WolfHUD",
+    "chat_translator_hud_voidui": "Void UI",
+    "chat_translator_hud_vanillahud": "VanillaHUD",
+    "chat_translator_extend_chat_title": "增强默认聊天",
+    "chat_translator_extend_chat_desc": "扩展游戏原版聊天的功能，如滚动聊天栏等功能",
+    "chat_translator_mouse_pointer_title": "聊天启用鼠标指针",
+    "chat_translator_mouse_pointer_desc": "在你打开聊天栏时显示鼠标指针以使用点击聊天进行翻译的模组功能",
+    "chat_translator_warning_hud_missing": "聊天兼容选定的HUD未安装或其聊天选项已禁用！如果是后者的情况，请将HUD聊天兼容选项更改为默认！",
+    "chat_translator_warning_ultrawide_fix_missing": "您尚未安装用于解决缩放问题的 Ultrawide Fix，你想访问该模组网页吗？"
+}

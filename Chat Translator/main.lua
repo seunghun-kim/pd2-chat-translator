@@ -942,7 +942,16 @@ function ChatTranslator.SetupHooks()
                         }
                     )
                 end
-                loc:load_localization_file(ChatTranslator._mod_path .. "loc/english.txt")
+
+                for _, filename in pairs(file.GetFiles(ChatTranslator._mod_path .. "loc")) do
+                    local language = filename:match("^(.*).json$")
+                    if language and Idstring(language) and Idstring(language):key() == SystemInfo:language():key() then
+                        loc:load_localization_file(ChatTranslator._mod_path .. "loc/" .. filename)
+                        return
+                    end
+                end
+
+                loc:load_localization_file(ChatTranslator._mod_path .. "loc/english.json")
             end
         )
 
