@@ -324,7 +324,10 @@ function ChatTranslatorMessage:init(chat, line, name, message, color, icon)
     self._icon = icon
     self._show_translation = false
 
-    if ChatTranslator.settings.hud == ChatTranslator.HUD.VOIDUI then
+    if
+        self._chat._chat_type == ChatTranslator.CHAT_TYPE.HUDCHAT and
+            ChatTranslator.settings.hud == ChatTranslator.HUD.VOIDUI
+     then
         self._time_stamp =
             VoidUI.options.chattime == 2 and "[" .. os.date("!%X", managers.game_play_central:get_heist_timer()) .. "] " or
             "[" .. os.date("%X") .. "] "
@@ -482,7 +485,10 @@ function ChatTranslatorMessage:ToggleTranslation()
         line_shadow:set_h(panel:h())
     end
 
-    if ChatTranslator.settings.hud == ChatTranslator.HUD.VOIDUI then
+    if
+        self._chat._chat_type == ChatTranslator.CHAT_TYPE.HUDCHAT and
+            ChatTranslator.settings.hud == ChatTranslator.HUD.VOIDUI
+     then
         self._chat:_layout_custom_output_panel()
     else
         self._chat:_layout_output_panel()
