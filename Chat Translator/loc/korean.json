@@ -1,11 +1,11 @@
 {
     "chat_translator_title": "Chat Translator",
     "chat_translator_desc": "",
-    "chat_translator_language_title": "Language",
-    "chat_translator_language_desc": "Language in which incoming messages are to be translated.",
-    "chat_translator_hud_title": "HUDChat",
-    "chat_translator_hud_desc": "Select the HUDChat you are using for the compatibility.",
-    "chat_translator_hud_default": "Default",
+    "chat_translator_language_title": "언어 설정",
+    "chat_translator_language_desc": "채팅 번역에 사용할 언어를 설정합니다(기본: 한국어).",
+    "chat_translator_hud_title": "채팅창 HUD 설정",
+    "chat_translator_hud_desc": "채팅창 표시용으로 사용 중인 HUD를 선택해 주십시오.",
+    "chat_translator_hud_default": "기본",
     "chat_translator_hud_wolfhud": "WolfHUD",
     "chat_translator_hud_voidui": "Void UI",
     "chat_translator_hud_vanillahud": "VanillaHUD",
@@ -15,8 +15,8 @@
     "chat_translator_mouse_pointer_desc": "Enables the Mouse pointer when opening the chat while ingame.",
     "chat_translator_warning_hud_missing": "The selected HUD is either not installed or it's chat option is disabled. If the latter is the case please select default.",
     "chat_translator_warning_ultrawide_fix_missing": "Ultrawide Fix to resolve scaling issues is not installed. Do you want to visit the mod page?",
-    "chat_translator_auto_translate_title": "Auto Translate",
-    "chat_translator_auto_translate_desc": "Automatically translate incoming messages.",
-    "chat_translator_auto_translate_excludes_title": "Auto Translate Exclude List",
-    "chat_translator_auto_translate_excludes_desc": "List of languages to exclude from auto translation."
+    "chat_translator_auto_translate_title": "자동 번역",
+    "chat_translator_auto_translate_desc": "체크하면 채팅이 자동으로 번역됩니다.",
+    "chat_translator_auto_translate_excludes_title": "자동 번역 제외 언어 설정",
+    "chat_translator_auto_translate_excludes_desc": "체크된 언어는 자동 번역되지 않고 원문 그대로 표시됩니다."
 }

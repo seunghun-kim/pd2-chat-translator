@@ -14,5 +14,9 @@
     "chat_translator_mouse_pointer_title": "聊天启用鼠标指针",
     "chat_translator_mouse_pointer_desc": "在你打开聊天栏时显示鼠标指针以使用点击聊天进行翻译的模组功能",
     "chat_translator_warning_hud_missing": "聊天兼容选定的HUD未安装或其聊天选项已禁用！如果是后者的情况，请将HUD聊天兼容选项更改为默认！",
-    "chat_translator_warning_ultrawide_fix_missing": "您尚未安装用于解决缩放问题的 Ultrawide Fix，你想访问该模组网页吗？"
+    "chat_translator_warning_ultrawide_fix_missing": "您尚未安装用于解决缩放问题的 Ultrawide Fix，你想访问该模组网页吗？",
+    "chat_translator_auto_translate_title": "自动翻译",
+    "chat_translator_auto_translate_desc": "如果选中，聊天内容将自动翻译。",
+    "chat_translator_auto_translate_excludes_title": "设置语言排除自动翻译",
+    "chat_translator_auto_translate_excludes_desc": "选中的语言不会自动翻译，并以其原始文本显示。"
 }

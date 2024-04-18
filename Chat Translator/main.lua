@@ -11,7 +11,9 @@ ChatTranslator.default_settings = {
     keyword = "tl",
     hud = ChatTranslator.HUD.DEFAULT,
     extend_chat = true,
-    mouse_pointer = true
+    mouse_pointer = true,
+    auto_translate = true,
+    auto_translate_excludes = {}
 }
 
 ChatTranslator._mod_path = ModPath
@@ -345,7 +347,9 @@ function ChatTranslatorMessage:inside(x, y)
     end
 end
 
-function ChatTranslatorMessage:RequestTranslation()
+function ChatTranslatorMessage:RequestTranslation(auto_translating)
+    auto_translating = auto_translating or false
+
     if self._translation_requested then
         return
     end
@@ -356,18 +360,20 @@ function ChatTranslatorMessage:RequestTranslation()
         ChatTranslator.settings.language,
         self._message,
         function(language, message)
-            return self:ApplyTranslation(language, message)
+            return self:ApplyTranslation(language, message, auto_translating)
         end
     )
 end
 
-function ChatTranslatorMessage:ApplyTranslation(language, message)
+function ChatTranslatorMessage:ApplyTranslation(language, message, auto_translating)
     self._translated = true
 
     self._language = language
     self._translated_message = message
 
-    self:ToggleTranslation()
+    if (not auto_translating) or (auto_translating and ChatTranslator.settings.auto_translate and (not table.contains(ChatTranslator.settings.auto_translate_excludes, self._language))) then
+        self:ToggleTranslation()
+    end
 end
 
 function ChatTranslatorMessage:ToggleTranslation()
@@ -515,6 +521,11 @@ function ChatTranslator.SetupHooks()
                 local line = self._lines[#self._lines]
 
                 local translatable_message = ChatTranslatorMessage:new(self, line, name, message, color, icon)
+
+                if ChatTranslator.settings.auto_translate then
+                    translatable_message:RequestTranslation(true)
+                end
+
                 table.insert(self._translatable_messages, translatable_message)
             end
         )
@@ -811,6 +822,11 @@ function ChatTranslator.SetupHooks()
                 end
 
                 local translatable_message = ChatTranslatorMessage:new(self, line, name, message, color, icon)
+
+                if ChatTranslator.settings.auto_translate then
+                    translatable_message:RequestTranslation(true)
+                end
+
                 table.insert(self._translatable_messages, translatable_message)
             end
         )
@@ -968,6 +984,14 @@ function ChatTranslator.SetupHooks()
                 MenuHelper:NewMenu("chat_translator")
             end
         )
+        
+        Hooks:Add(
+            "MenuManagerSetupCustomMenus",
+            "ChatTranslatorAutoTranslateExcludes_MenuManagerSetupCustomMenus",
+            function(menu_manager, nodes)
+                MenuHelper:NewMenu("chat_translator_auto_translate_excludes")
+            end
+        )
 
         Hooks:Add(
             "MenuManagerPopulateCustomMenus",
@@ -991,6 +1015,10 @@ function ChatTranslator.SetupHooks()
                     ChatTranslator.settings.extend_chat = (item:value() == "on")
                 end
 
+                function MenuCallbackHandler:chat_translator_auto_translate_callback(item)
+                    ChatTranslator.settings.auto_translate = (item:value() == "on")
+                end
+
                 function MenuCallbackHandler:chat_translator_back_callback(item)
                     ChatTranslator:CheckHUDCompatibility()
                     ChatTranslator:Save()
@@ -1012,7 +1040,7 @@ function ChatTranslator.SetupHooks()
                         items = ChatTranslator.languages.name_ids,
                         value = language_index or 1,
                         menu_id = "chat_translator",
-                        priority = 5
+                        priority = 6
                     }
                 )
 
@@ -1030,7 +1058,7 @@ function ChatTranslator.SetupHooks()
                         },
                         value = ChatTranslator.settings.hud,
                         menu_id = "chat_translator",
-                        priority = 4
+                        priority = 5
                     }
                 )
 
@@ -1039,7 +1067,7 @@ function ChatTranslator.SetupHooks()
                         id = "chat_translator_divider_1",
                         size = 16,
                         menu_id = "chat_translator",
-                        priority = 3
+                        priority = 4
                     }
                 )
 
@@ -1051,7 +1079,7 @@ function ChatTranslator.SetupHooks()
                         callback = "chat_translator_mouse_pointer_callback",
                         value = ChatTranslator.settings.mouse_pointer,
                         menu_id = "chat_translator",
-                        priority = 2
+                        priority = 3
                     }
                 )
 
@@ -1063,6 +1091,18 @@ function ChatTranslator.SetupHooks()
                         callback = "chat_translator_extend_chat_callback",
                         value = ChatTranslator.settings.extend_chat,
                         menu_id = "chat_translator",
+                        priority = 2
+                    }
+                )
+
+                MenuHelper:AddToggle(
+                    {
+                        id = "chat_translator_auto_translate",
+                        title = "chat_translator_auto_translate_title",
+                        desc = "chat_translator_auto_translate_desc",
+                        callback = "chat_translator_auto_translate_callback",
+                        value = ChatTranslator.settings.auto_translate,
+                        menu_id = "chat_translator",
                         priority = 1
                     }
                 )
@@ -1070,6 +1110,53 @@ function ChatTranslator.SetupHooks()
                 ChatTranslator.UpdateButtons()
             end
         )
+
+        Hooks:Add(
+            "MenuManagerPopulateCustomMenus",
+            "ChatTranslatorAutoTranslateExcludes_MenuManagerPopulateCustomMenus",
+            function(menu_manager, nodes)
+                function MenuCallbackHandler:chat_translator_auto_translate_excludes_callback(item)
+                    local language = item:name():gsub("chat_translator_auto_translate_exclude_", "")
+                    local is_on = (item:value() == "on")
+
+                    -- find if the language is in the excludes list
+                    local found = false
+                    for i, value in ipairs(ChatTranslator.settings.auto_translate_excludes) do
+                        if value == language then
+                            found = true
+                            break
+                        end
+                    end
+
+                    if is_on and not found then
+                        table.insert(ChatTranslator.settings.auto_translate_excludes, language)
+                    elseif not is_on and found then
+                        for i, value in ipairs(ChatTranslator.settings.auto_translate_excludes) do
+                            if value == language then
+                                table.remove(ChatTranslator.settings.auto_translate_excludes, i)
+                                break
+                            end
+                        end
+                    end
+                end
+
+                -- Auto translate excludes. List all languages with checkboxes.
+                for i, lang_code in ipairs(ChatTranslator.languages.codes) do
+                    MenuHelper:AddToggle(
+                        {
+                            id = "chat_translator_auto_translate_exclude_" .. lang_code,
+                            title = ChatTranslator.languages.name_ids[i],
+                            desc = "chat_translator_auto_translate_excludes_desc",
+                            callback = "chat_translator_auto_translate_excludes_callback",
+                            value = table.contains(ChatTranslator.settings.auto_translate_excludes, lang_code),
+                            menu_id = "chat_translator_auto_translate_excludes",
+                            priority = #ChatTranslator.languages.codes - i
+                        }
+                    )
+                end
+            end
+        )
+
 
         Hooks:Add(
             "MenuManagerBuildCustomMenus",
@@ -1082,6 +1169,20 @@ function ChatTranslator.SetupHooks()
                     "chat_translator",
                     "chat_translator_title",
                     "chat_translator_desc"
+                )
+            end
+        )
+        Hooks:Add(
+            "MenuManagerBuildCustomMenus",
+            "ChatTranslatorAutoTranslateExcludes_MenuManagerBuildCustomMenus",
+            function(menu_manager, nodes)
+                nodes.chat_translator_auto_translate_excludes =
+                    MenuHelper:BuildMenu("chat_translator_auto_translate_excludes")
+                MenuHelper:AddMenuItem(
+                    nodes.chat_translator,
+                    "chat_translator_auto_translate_excludes",
+                    "chat_translator_auto_translate_excludes_title",
+                    "chat_translator_auto_translate_excludes_desc"
                 )
             end
         )
