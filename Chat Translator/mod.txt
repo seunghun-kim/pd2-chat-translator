@@ -10,7 +10,7 @@
 		{
 			"identifier": "ChatTranslator",
 			"host": {
-				"meta": "https://github.com/powware/pd2-chat-translator/releases/download/refs%2Fheads%2Fmaster/meta.json"
+				"meta": "https://github.com/powware/pd2-chat-translator/releases/download/master/meta.json"
 			}
 		}
 	],
