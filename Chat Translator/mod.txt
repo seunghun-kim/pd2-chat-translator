@@ -4,13 +4,13 @@
 	"description": "Translates messages with the click of your mouse. Lets you type in any language.",
 	"author": "powware",
 	"contact": "https://github.com/powware",
-	"version": "1.3",
+	"version": "1.4",
 	"color": "0.0 1 0.0",
 	"updates": [
 		{
 			"identifier": "ChatTranslator",
 			"host": {
-				"meta": "https://github.com/powware/pd2-chat-translator/releases/download/refs%2Fheads%2Fmaster/meta.json"
+				"meta": "https://github.com/powware/pd2-chat-translator/releases/download/master/meta.json"
 			}
 		}
 	],
