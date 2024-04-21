@@ -157,8 +157,15 @@ function ChatTranslator.RequestTranslation(language, message, callback)
                 return
             end
 
-            local translated_message = tostring(decoded_data[1][1][1])
-            if not translated_message then
+            local translated_message = ""
+            for i = 1, #decoded_data[1] do
+                local part = tostring(decoded_data[1][i][1])
+                if not part then
+                    return
+                end
+                translated_message = translated_message .. part
+            end
+            if translated_message == "" then
                 return
             end
 
